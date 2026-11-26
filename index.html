@@ -1,27 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUGO KNOTS</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#faf7fc;
+color:#333;
+}
+
+header{
+background:linear-gradient(135deg,#7b4b94,#b084cc);
+color:white;
+padding:60px 20px;
+text-align:center;
+}
+
+header h1{
+font-size:3rem;
+}
+
+header p{
+margin-top:10px;
+font-size:1.2rem;
+}
+
+nav{
+background:white;
+padding:15px;
+display:flex;
+justify-content:center;
+gap:20px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+position:sticky;
+top:0;
+}
+
+nav a{
+text-decoration:none;
+color:#7b4b94;
+font-weight:bold;
+}
+
+.hero{
+padding:60px 20px;
+text-align:center;
+}
+
+.hero h2{
+font-size:2rem;
+color:#7b4b94;
+}
+
+.hero p{
+max-width:700px;
+margin:20px auto;
+line-height:1.8;
+}
+
+.btn{
+display:inline-block;
+padding:12px 24px;
+background:#7b4b94;
+color:white;
+text-decoration:none;
+border-radius:30px;
+margin:10px;
+}
+
+.section{
+padding:60px 20px;
+max-width:1200px;
+margin:auto;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:40px;
+font-size:2rem;
+color:#7b4b94;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+border-radius:15px;
+padding:25px;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+text-align:center;
+}
+
+.card h3{
+color:#7b4b94;
+margin-bottom:10px;
+}
+
+.contact{
+background:#7b4b94;
+color:white;
+text-align:center;
+padding:60px 20px;
+}
+
+footer{
+background:#2d2036;
+color:white;
+text-align:center;
+padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>SUGO KNOTS</h1>
+<p>Stitched with Love, Tied with Joy</p>
+<p>Where Happiness Blooms 🌸</p>
+</header>
+
+<nav>
+<a href="#about">About</a>
+<a href="#collections">Collections</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<section class="hero">
+<h2>Handcrafted With Love</h2>
+<p>
+Discover unique crochet creations, bouquets, bangles,
+paintings, drawings and handmade crafts designed to
+bring smiles and create memories.
+</p>
+
+<a class="btn" href="https://wa.me/916381269866">
+Order on WhatsApp
+</a>
+
+<a class="btn" href="https://www.instagram.com/sugo.knots">
+Instagram
+</a>
+</section>
+
+<section id="about" class="section">
+<h2 class="section-title">About SUGO KNOTS</h2>
+
+<p style="text-align:center;line-height:1.8;">
+At SUGO KNOTS, every creation is handcrafted with
+care, creativity and passion. From crochet flowers
+and custom bouquets to bangles, paintings and personalised
+craft gifts, every piece is designed to spread happiness.
+</p>
+</section>
+
+<section id="collections" class="section">
+<h2 class="section-title">Collections</h2>
+
 <div class="grid">
 
 <div class="card">
-<img src="images/Bell%20Collar%20Baby%20Elephant%20Lamp.jpeg"
-style="width:100%;border-radius:10px;">
-<h3>Baby Elephant Lamp</h3>
-<p>₹799</p>
-<a class="btn" href="https://wa.me/916381269866">Order Now</a>
+<h3>🧶 Crochet</h3>
+<p>Crochet flowers, toys, keychains and custom creations.</p>
 </div>
 
 <div class="card">
-<img src="images/Carrot%20Hat%20Kitty%20Plush.jpeg"
-style="width:100%;border-radius:10px;">
-<h3>Kitty Plush</h3>
-<p>₹699</p>
-<a class="btn" href="https://wa.me/916381269866">Order Now</a>
+<h3>💐 Bouquets</h3>
+<p>Everlasting handmade bouquets crafted with love.</p>
 </div>
 
 <div class="card">
-<img src="images/Crispy%20Fries%20Capybara%20Plushie.jpeg"
-style="width:100%;border-radius:10px;">
-<h3>Capybara Plushie</h3>
-<p>₹899</p>
-<a class="btn" href="https://wa.me/916381269866">Order Now</a>
+<h3>✨ Bangles</h3>
+<p>Traditional and custom-designed bangles for all occasions.</p>
+</div>
+
+<div class="card">
+<h3>🎨 Paintings</h3>
+<p>Canvas art and personalised paintings.</p>
+</div>
+
+<div class="card">
+<h3>✏️ Drawings</h3>
+<p>Pencil sketches and portrait artwork.</p>
+</div>
+
+<div class="card">
+<h3>🎁 Crafts</h3>
+<p>Custom gifts and handmade decorative items.</p>
 </div>
 
 </div>
+</section>
+
+<section class="section">
+<h2 class="section-title">Why Choose Us?</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>Handmade</h3>
+<p>Every item is crafted with attention to detail.</p>
+</div>
+
+<div class="card">
+<h3>Custom Orders</h3>
+<p>Personalised creations just for you.</p>
+</div>
+
+<div class="card">
+<h3>Made With Love</h3>
+<p>Designed to make every occasion special.</p>
+</div>
+
+</div>
+</section>
+
+<section id="contact" class="contact">
+<h2>Contact Us</h2>
+
+<br>
+
+<p>📞 6381269866</p>
+
+<p>📧 sugo.knots2902@gmail.com</p>
+
+<br>
+
+<a class="btn" href="https://wa.me/916381269866">
+Order Now
+</a>
+</section>
+
+<footer>
+© 2026 SUGO KNOTS • Where Happiness Blooms 🌸
+</footer>
+
+</body>
+</html>
