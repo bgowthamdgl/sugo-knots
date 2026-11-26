@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,62 +7,149 @@
 <title>Contact - SUGO KNOTS</title>
 
 <style>
-
-body{
-    margin:0;
-    font-family:'Segoe UI',sans-serif;
-    background:#faf7fc;
+* {
+    box-sizing: border-box;
 }
 
-.contact-container{
-    max-width:800px;
-    margin:60px auto;
-    background:white;
-    padding:40px;
-    border-radius:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
-    text-align:center;
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #faf7fc;
+    position: relative;
+    min-height: 100vh;
 }
 
-h1{
-    color:#7b4b94;
-    margin-bottom:20px;
+/* Logo watermark */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url('images/sugo-watermark.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: min(80vw, 500px);
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: -1;
 }
 
-.contact-item{
-    margin:20px 0;
-    font-size:1.2rem;
+.contact-container {
+    max-width: 800px;
+    margin: 60px auto;
+    background: rgba(255,255,255,0.94);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
 }
 
-.contact-item a{
-    color:#7b4b94;
-    text-decoration:none;
+h1 {
+    color: #7b4b94;
+    margin-bottom: 20px;
 }
 
-.btn{
-    display:inline-block;
-    margin-top:25px;
-    padding:12px 25px;
-    background:#7b4b94;
-    color:white;
-    text-decoration:none;
-    border-radius:30px;
-    transition:0.3s;
+.contact-item {
+    margin: 20px 0;
+    font-size: 1.1rem;
 }
 
-.btn:hover{
-    background:#5e3678;
+.contact-item a {
+    color: #7b4b94;
+    text-decoration: none;
 }
 
+.btn {
+    display: inline-block;
+    margin: 12px 5px;
+    padding: 13px 25px;
+    background: #7b4b94;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #5e3678;
+    transform: translateY(-3px);
+}
+
+.whatsapp-btn {
+    background: #25D366;
+}
+
+.whatsapp-btn:hover {
+    background: #1da851;
+}
+
+.order-section {
+    margin-top: 35px;
+    padding: 25px;
+    background: #faf3ff;
+    border-radius: 18px;
+}
+
+.order-section h2 {
+    color: #7b4b94;
+}
+
+.order-section p {
+    color: #705c78;
+    line-height: 1.6;
+}
+
+.testimonial-section {
+    max-width: 950px;
+    margin: 40px auto;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.testimonial-section h2 {
+    color: #7b4b94;
+}
+
+.testimonial-card {
+    display: inline-block;
+    vertical-align: top;
+    width: 260px;
+    max-width: 100%;
+    background: white;
+    padding: 25px;
+    margin: 10px;
+    border-radius: 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.stars {
+    color: #e5aa36;
+    font-size: 22px;
+}
+
+.testimonial-card h3 {
+    color: #7b4b94;
+}
+
+.testimonial-card p {
+    color: #66546d;
+    line-height: 1.6;
+}
+
+@media(max-width:600px) {
+    .contact-container {
+        margin: 25px 15px;
+        padding: 25px 15px;
+    }
+}
 </style>
-
 </head>
 
 <body>
 
 <div class="contact-container">
 
-<h1>Contact SUGO KNOTS</h1>
+<h1>Contact SUGO KNOTS 💜</h1>
 
 <p>We'd love to create something special for you ❤️</p>
 
@@ -78,16 +166,60 @@ sugo.knots2902@gmail.com
 
 <div class="contact-item">
 📸 <strong>Instagram:</strong>
-<a href="https://www.instagram.com/sugo.knots" target="_blank">
+<a href="https://www.instagram.com/sugo.knots" target="_blank" rel="noopener">
 @sugo.knots
 </a>
 </div>
 
-<a class="btn" href="https://wa.me/916381269866" target="_blank">
+<a class="btn whatsapp-btn"
+href="https://wa.me/916381269866?text=Hello%20SUGO%20KNOTS!%20I%20would%20like%20to%20know%20about%20your%20crochet%20products."
+target="_blank" rel="noopener">
 💬 Chat on WhatsApp
 </a>
 
+<div class="order-section">
+<h2>Place Your Crochet Order 🧶</h2>
+
+<p>
+Looking for a special handmade gift?
+Tell us what you need and we'll help you!
+</p>
+
+<a class="btn whatsapp-btn"
+href="https://wa.me/916381269866?text=Hello%20SUGO%20KNOTS!%20I%20would%20like%20to%20place%20a%20custom%20crochet%20order."
+target="_blank" rel="noopener">
+🛍️ Place an Order
+</a>
 </div>
+
+</div>
+
+<!-- Customer Testimonials -->
+<section class="testimonial-section">
+
+<h2>What Our Customers Say 💜</h2>
+<p>Every stitch is made with love!</p>
+
+<div class="testimonial-card">
+<div class="stars">★★★★★</div>
+<p>"Beautiful handmade crochet products. Loved the finishing!"</p>
+<h3>Customer Review</h3>
+</div>
+
+<div class="testimonial-card">
+<div class="stars">★★★★★</div>
+<p>"A lovely handmade gift. Wonderful creativity and quality."</p>
+<h3>Customer Review</h3>
+</div>
+
+<div class="testimonial-card">
+<div class="stars">★★★★★</div>
+<p>"Amazing crochet work. Looking forward to ordering again!"</p>
+<h3>Customer Review</h3>
+</div>
+
+</section>
 
 </body>
 </html>
+```
