@@ -1,15 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SUGO KNOTS Catalog</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#faf7fc;
+}
+
+/* Watermark */
+body::before{
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-image:url('./images/sugo-watermark.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:500px;
+    opacity:0.08;
+    pointer-events:none;
+    z-index:-1;
+}
+
+/* Navigation */
+
+nav{
+    position:sticky;
+    top:0;
+    background:#7b4b94;
+    padding:18px;
+    text-align:center;
+    z-index:9999;
+    box-shadow:0 3px 10px rgba(0,0,0,.15);
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 18px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#ffe3fa;
+}
+
+/* Header */
+
+.catalog-header{
+    text-align:center;
+    padding:50px 20px 30px;
+}
+
+.catalog-header h1{
+    color:#7b4b94;
+    font-size:2.8rem;
+    margin-bottom:10px;
+}
+
+.catalog-header p{
+    color:#666;
+    font-size:1.1rem;
+}
+
+/* Stats */
+
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+    margin-top:30px;
+}
+
+.stat-box{
+    background:white;
+    padding:20px 30px;
+    border-radius:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.stat-box h2{
+    color:#7b4b94;
+}
+
+.stat-box p{
+    color:#666;
+}
+
+/* Search */
+
+.catalog-tools{
+    max-width:1200px;
+    margin:20px auto 40px;
+    padding:0 20px;
+    text-align:center;
+}
+
+#searchInput{
+    width:min(500px,100%);
+    padding:15px 20px;
+    border-radius:30px;
+    border:2px solid #e1d6ea;
+    outline:none;
+    font-size:16px;
+    margin-bottom:20px;
+}
+
+#searchInput:focus{
+    border-color:#7b4b94;
+}
+
+.filter-buttons{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.filter-buttons button{
+    border:none;
+    background:#7b4b94;
+    color:white;
+    padding:10px 20px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.filter-buttons button:hover{
+    background:#5d3773;
+}
+
+/* Grid */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    padding:20px;
+    max-width:1400px;
+    margin:auto;
+}
+
+/* Products */
+
+.card{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    text-align:center;
+    box-shadow:0 8px 20px rgba(0,0,0,.1);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 30px rgba(123,75,148,.25);
+}
+
+.card img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    transition:.4s;
+}
+
+.card:hover img{
+    transform:scale(1.05);
+}
+
+.tag{
+    display:inline-block;
+    margin-top:15px;
+    background:#f6ecff;
+    color:#7b4b94;
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.card h3{
+    padding:15px 10px 5px;
+    color:#7b4b94;
+}
+
+.card p{
+    font-size:1.1rem;
+    font-weight:bold;
+    color:#444;
+}
+
+.order-btn{
+    display:inline-block;
+    margin:15px 0 20px;
+    padding:12px 24px;
+    background:#25D366;
+    color:white;
+    text-decoration:none;
+    border-radius:30px;
+    font-weight:700;
+    transition:.3s;
+}
+
+.order-btn:hover{
+    background:#1da851;
+    transform:translateY(-3px);
+}
+
+/* Footer */
+
+footer{
+    background:#7b4b94;
+    color:white;
+    text-align:center;
+    padding:40px 20px;
+    margin-top:60px;
+}
+
+.footer-links{
+    margin:20px 0;
+}
+
+.footer-links a{
+    color:white;
+    text-decoration:none;
+    margin:0 15px;
+}
+
+.footer-links a:hover{
+    color:#ffe3fa;
+}
+
+.copyright{
+    margin-top:20px;
+    opacity:.85;
+}
+
+@media(max-width:768px){
+
+    .catalog-header h1{
+        font-size:2rem;
+    }
+
+    nav a{
+        margin:0 10px;
+        font-size:14px;
+    }
+
+    body::before{
+        background-size:300px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="catalog.html">Catalog</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
 <section class="catalog-header">
+
     <h1>✨ SUGO KNOTS Catalog ✨</h1>
-    <p>Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts</p>
+
+    <p>
+        Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts
+    </p>
+
+    <div class="stats">
+
+        <div class="stat-box">
+            <h2>23+</h2>
+            <p>Products</p>
+        </div>
+
+        <div class="stat-box">
+            <h2>100%</h2>
+            <p>Handmade</p>
+        </div>
+
+        <div class="stat-box">
+            <h2>Custom</h2>
+            <p>Orders Available</p>
+        </div>
+
+    </div>
+
 </section>
 
 <section class="catalog-tools">
 
     <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 Search products..."
-        onkeyup="filterProducts()">
+    type="text"
+    id="searchInput"
+    placeholder="🔍 Search products..."
+    onkeyup="filterProducts()">
 
     <div class="filter-buttons">
         <button onclick="filterCategory('all')">All</button>
@@ -25,69 +336,60 @@
 
 <div class="grid">
 
-<div class="card">
-    <img src="images/Bell%20Collar%20Baby%20Elephant%20Lamp.jpeg" alt="Baby Elephant Lamp">
-    <span class="tag">Home Décor</span>
-    <h3>Baby Elephant Lamp</h3>
-    <p>₹799</p>
-    <a class="order-btn"
-       href="https://wa.me/916381269866?text=Hi%20SUGO%20KNOTS,%20I%20would%20like%20to%20order%20the%20Baby%20Elephant%20Lamp."
-       target="_blank">
-       Order on WhatsApp
-    </a>
+    <!-- PRODUCT CARDS HERE -->
+    
 </div>
 
-<div class="card">
-    <img src="images/Carrot%20Hat%20Kitty%20Plush.jpeg" alt="Carrot Hat Kitty Plush">
-    <span class="tag">Plushie</span>
-    <h3>Carrot Hat Kitty Plush</h3>
-    <p>₹699</p>
-    <a class="order-btn"
-       href="https://wa.me/916381269866?text=Hi%20SUGO%20KNOTS,%20I%20would%20like%20to%20order%20the%20Carrot%20Hat%20Kitty%20Plush."
-       target="_blank">
-       Order on WhatsApp
-    </a>
-</div>
-
-<div class="card">
-    <img src="images/Crispy%20Fries%20Capybara%20Plushie.jpeg" alt="Crispy Fries Capybara Plushie">
-    <span class="tag">Plushie</span>
-    <h3>Crispy Fries Capybara Plushie</h3>
-    <p>₹899</p>
-    <a class="order-btn"
-       href="https://wa.me/916381269866?text=Hi%20SUGO%20KNOTS,%20I%20would%20like%20to%20order%20the%20Crispy%20Fries%20Capybara%20Plushie."
-       target="_blank">
-       Order on WhatsApp
-    </a>
-</div>
-
-<div class="card">
-    <img src="images/Garden%20Bunny%20with%20Sunflower%20Bag.jpeg" alt="Garden Bunny with Sunflower Bag">
-    <span class="tag">Plushie</span>
-    <h3>Garden Bunny with Sunflower Bag</h3>
-    <p>₹749</p>
-    <a class="order-btn"
-       href="https://wa.me/916381269866?text=Hi%20SUGO%20KNOTS,%20I%20would%20like%20to%20order%20the%20Garden%20Bunny%20with%20Sunflower%20Bag."
-       target="_blank">
-       Order on WhatsApp
-    </a>
-</div>
-
-<div class="card">
-    <img src="images/Lavender%20Sprout%20Penguin%20Plushie.jpeg" alt="Lavender Sprout Penguin Plushie">
-    <span class="tag">Plushie</span>
-    <h3>Lavender Sprout Penguin Plushie</h3>
-    <p>₹699</p>
-    <a class="order-btn"
-       href="https://wa.me/916381269866?text=Hi%20SUGO%20KNOTS,%20I%20would%20like%20to%20order%20the%20Lavender%20Sprout%20Penguin%20Plushie."
-       target="_blank">
-       Order on WhatsApp
-    </a>
-</div>
-
-<!-- Continue the same format for the remaining 18 products -->
-
-</div>
 <footer>
-    <p>© 2026 SUGO KNOTS | Handmade with ❤️</p>
+
+    <h3>SUGO KNOTS</h3>
+
+    <p>
+       Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts
+    </p>
+
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="catalog.html">Catalog</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+    </div>
+
+    <div class="copyright">
+        © 2026 SUGO KNOTS | Handmade with Love 💜
+    </div>
+
 </footer>
+
+<script>
+
+function filterProducts() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+        let title = card.querySelector("h3").textContent.toLowerCase();
+        card.style.display = title.includes(input) ? "block" : "none";
+    });
+}
+
+function filterCategory(category) {
+
+    let cards = document.querySelectorAll(".card");
+
+    cards.forEach(card => {
+
+        let tag = card.querySelector(".tag").textContent;
+
+        if(category === "all" || tag === category){
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+
+</script>
+
+</body>
+</html>
