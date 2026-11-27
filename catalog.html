@@ -3,276 +3,341 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SUGO KNOTS Catalog</title>
 
+<!-- PDF Generation Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Segoe UI',sans-serif;
+:root {
+    --brand: #7b4b94;
+    --brand-dark: #5d3773;
+    --brand-soft: #f6ecff;
+    --bg: #faf7fc;
+    --whatsapp: #25D366;
+    --whatsapp-dark: #1da851;
 }
 
-html{
-    scroll-behavior:smooth;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-body{
-    background:#faf7fc;
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--bg);
 }
 
 /* Watermark */
-body::before{
-    content:"";
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background-image:url('./images/sugo-watermark.png');
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:500px;
-    opacity:0.08;
-    pointer-events:none;
-    z-index:-1;
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('./images/sugo-watermark.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 500px;
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* Navigation */
-
-nav{
-    position:sticky;
-    top:0;
-    background:#7b4b94;
-    padding:18px;
-    text-align:center;
-    z-index:9999;
-    box-shadow:0 3px 10px rgba(0,0,0,.15);
+nav {
+    position: sticky;
+    top: 0;
+    background: var(--brand);
+    padding: 18px;
+    text-align: center;
+    z-index: 9999;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
 }
 
-nav a{
-    color:white;
-    text-decoration:none;
-    margin:0 18px;
-    font-weight:bold;
-    transition:.3s;
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 18px;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-nav a:hover{
-    color:#ffe3fa;
+nav a:hover {
+    color: #ffe3fa;
 }
 
 /* Header */
-
-.catalog-header{
-    text-align:center;
-    padding:50px 20px 30px;
+.catalog-header {
+    text-align: center;
+    padding: 50px 20px 30px;
 }
 
-.catalog-header h1{
-    color:#7b4b94;
-    font-size:2.8rem;
-    margin-bottom:10px;
+.catalog-header h1 {
+    color: var(--brand);
+    font-size: 2.8rem;
+    margin-bottom: 10px;
 }
 
-.catalog-header p{
-    color:#666;
-    font-size:1.1rem;
+.catalog-header p {
+    color: #666;
+    font-size: 1.1rem;
 }
 
 /* Stats */
-
-.stats{
-    display:flex;
-    justify-content:center;
-    gap:25px;
-    flex-wrap:wrap;
-    margin-top:30px;
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-top: 30px;
 }
 
-.stat-box{
-    background:white;
-    padding:20px 30px;
-    border-radius:18px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+.stat-box {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
-.stat-box h2{
-    color:#7b4b94;
+.stat-box h2 {
+    color: var(--brand);
 }
 
-.stat-box p{
-    color:#666;
+.stat-box p {
+    color: #666;
 }
 
-/* Search */
-
-.catalog-tools{
-    max-width:1200px;
-    margin:20px auto 40px;
-    padding:0 20px;
-    text-align:center;
+/* Search & Tools */
+.catalog-tools {
+    max-width: 1200px;
+    margin: 20px auto 40px;
+    padding: 0 20px;
+    text-align: center;
 }
 
-#searchInput{
-    width:min(500px,100%);
-    padding:15px 20px;
-    border-radius:30px;
-    border:2px solid #e1d6ea;
-    outline:none;
-    font-size:16px;
-    margin-bottom:20px;
+.tools-top-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
-#searchInput:focus{
-    border-color:#7b4b94;
+#searchInput {
+    width: min(460px, 100%);
+    padding: 14px 20px;
+    border-radius: 30px;
+    border: 2px solid #e1d6ea;
+    outline: none;
+    font-size: 16px;
 }
 
-.filter-buttons{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:10px;
+#searchInput:focus {
+    border-color: var(--brand);
 }
 
-.filter-buttons button{
-    border:none;
-    background:#7b4b94;
-    color:white;
-    padding:10px 20px;
-    border-radius:30px;
-    cursor:pointer;
-    transition:.3s;
+.pdf-export-btn {
+    border: 2px solid var(--brand);
+    background: white;
+    color: var(--brand);
+    padding: 13px 22px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.25s;
 }
 
-.filter-buttons button:hover{
-    background:#5d3773;
+.pdf-export-btn:hover {
+    background: var(--brand);
+    color: white;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-buttons button {
+    border: 2px solid transparent;
+    background: var(--brand);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.filter-buttons button:hover,
+.filter-buttons button.active {
+    background: var(--brand-dark);
+    border-color: #ffe3fa;
+    transform: translateY(-2px);
 }
 
 /* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: auto;
+}
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:25px;
-    padding:20px;
-    max-width:1400px;
-    margin:auto;
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 1.1rem;
+    display: none;
 }
 
 /* Products */
-
-.card{
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    text-align:center;
-    box-shadow:0 8px 20px rgba(0,0,0,.1);
-    transition:.3s;
+.card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
 }
 
-.card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 15px 30px rgba(123,75,148,.25);
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(123, 75, 148, 0.25);
 }
 
-.card img{
-    width:100%;
-    height:320px;
-    object-fit:cover;
-    transition:.4s;
+.card img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    transition: 0.4s;
 }
 
-.card:hover img{
-    transform:scale(1.05);
+.card:hover img {
+    transform: scale(1.05);
 }
 
-.tag{
-    display:inline-block;
-    margin-top:15px;
-    background:#f6ecff;
-    color:#7b4b94;
-    padding:6px 12px;
-    border-radius:20px;
-    font-size:13px;
-    font-weight:600;
+.tag {
+    display: inline-block;
+    margin-top: 15px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
-.card h3{
-    padding:15px 10px 5px;
-    color:#7b4b94;
+.card h3 {
+    padding: 15px 10px 5px;
+    color: var(--brand);
 }
 
-.card p{
-    font-size:1.1rem;
-    font-weight:bold;
-    color:#444;
+.card p {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #444;
 }
 
-.order-btn{
-    display:inline-block;
-    margin:15px 0 20px;
-    padding:12px 24px;
-    background:#25D366;
-    color:white;
-    text-decoration:none;
-    border-radius:30px;
-    font-weight:700;
-    transition:.3s;
+.order-btn {
+    display: inline-block;
+    margin: 15px 0 20px;
+    padding: 12px 24px;
+    background: var(--whatsapp);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 700;
+    transition: 0.3s;
 }
 
-.order-btn:hover{
-    background:#1da851;
-    transform:translateY(-3px);
+.order-btn:hover {
+    background: var(--whatsapp-dark);
+    transform: translateY(-3px);
+}
+
+/* Subtle Premium Reveal Animations */
+.sugo-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sugo-reveal[data-sugo-delay="1"] { transition-delay: 0.08s; }
+.sugo-reveal[data-sugo-delay="2"] { transition-delay: 0.16s; }
+.sugo-reveal[data-sugo-delay="3"] { transition-delay: 0.24s; }
+
+.sugo-reveal.sugo-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sugo-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 /* Footer */
-
-footer{
-    background:#7b4b94;
-    color:white;
-    text-align:center;
-    padding:40px 20px;
-    margin-top:60px;
+footer {
+    background: var(--brand);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 60px;
 }
 
-.footer-links{
-    margin:20px 0;
+.footer-links {
+    margin: 20px 0;
 }
 
-.footer-links a{
-    color:white;
-    text-decoration:none;
-    margin:0 15px;
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
 }
 
-.footer-links a:hover{
-    color:#ffe3fa;
+.footer-links a:hover {
+    color: #ffe3fa;
 }
 
-.copyright{
-    margin-top:20px;
-    opacity:.85;
+.copyright {
+    margin-top: 20px;
+    opacity: 0.85;
 }
 
-@media(max-width:768px){
-
-    .catalog-header h1{
-        font-size:2rem;
+@media (max-width: 768px) {
+    .catalog-header h1 {
+        font-size: 2rem;
     }
 
-    nav a{
-        margin:0 10px;
-        font-size:14px;
+    nav a {
+        margin: 0 10px;
+        font-size: 14px;
     }
 
-    body::before{
-        background-size:300px;
+    body::before {
+        background-size: 300px;
     }
 }
-
 </style>
 </head>
 
@@ -286,17 +351,12 @@ footer{
 </nav>
 
 <section class="catalog-header">
-
     <h1>✨ SUGO KNOTS Catalog ✨</h1>
-
-    <p>
-        Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts
-    </p>
+    <p>Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts</p>
 
     <div class="stats">
-
         <div class="stat-box">
-            <h2>23+</h2>
+            <h2 id="productCountStat">23+</h2>
             <p>Products</p>
         </div>
 
@@ -309,44 +369,41 @@ footer{
             <h2>Custom</h2>
             <p>Orders Available</p>
         </div>
-
     </div>
-
 </section>
 
 <section class="catalog-tools">
-
-    <input
-    type="text"
-    id="searchInput"
-    placeholder="🔍 Search products..."
-    onkeyup="filterProducts()">
-
-    <div class="filter-buttons">
-        <button onclick="filterCategory('all')">All</button>
-        <button onclick="filterCategory('Plushie')">Plushies</button>
-        <button onclick="filterCategory('Bouquet')">Bouquets</button>
-        <button onclick="filterCategory('Keychain')">Keychains</button>
-        <button onclick="filterCategory('Charm')">Charms</button>
-        <button onclick="filterCategory('Accessories')">Accessories</button>
-        <button onclick="filterCategory('Anime')">Anime</button>
+    <div class="tools-top-bar">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Search products..."
+            aria-label="Search products"
+        >
+        <button type="button" id="exportPdfBtn" class="pdf-export-btn">
+            📄 Download Catalog PDF
+        </button>
     </div>
 
+    <div class="filter-buttons" role="group" aria-label="Filter by category">
+        <button type="button" class="active" data-category="all">All</button>
+        <button type="button" data-category="Plushie">Plushies</button>
+        <button type="button" data-category="Bouquet">Bouquets</button>
+        <button type="button" data-category="Keychain">Keychains</button>
+        <button type="button" data-category="Charm">Charms</button>
+        <button type="button" data-category="Accessories">Accessories</button>
+        <button type="button" data-category="Anime">Anime</button>
+    </div>
 </section>
 
-<div class="grid">
-
+<div class="grid" id="catalogGrid">
     <!-- PRODUCT CARDS HERE -->
-    
+    <p class="empty-state" id="emptyState">No crochet products match your current filter.</p>
 </div>
 
 <footer>
-
     <h3>SUGO KNOTS</h3>
-
-    <p>
-       Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts
-    </p>
+    <p>Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts</p>
 
     <div class="footer-links">
         <a href="index.html">Home</a>
@@ -358,37 +415,248 @@ footer{
     <div class="copyright">
         © 2026 SUGO KNOTS | Handmade with Love 💜
     </div>
-
 </footer>
 
 <script>
+(() => {
+    let activeCategory = "all";
 
-function filterProducts() {
-    let input = document.getElementById("searchInput").value.toLowerCase();
-    let cards = document.querySelectorAll(".card");
+    const searchInput = document.getElementById("searchInput");
+    const filterButtons = document.querySelectorAll(".filter-buttons button");
+    const emptyState = document.getElementById("emptyState");
+    const exportPdfBtn = document.getElementById("exportPdfBtn");
 
-    cards.forEach(card => {
-        let title = card.querySelector("h3").textContent.toLowerCase();
-        card.style.display = title.includes(input) ? "block" : "none";
-    });
-}
+    function applyFilters() {
+        const query = searchInput.value.trim().toLowerCase();
+        const cards = document.querySelectorAll("#catalogGrid .card");
+        let visibleCount = 0;
 
-function filterCategory(category) {
+        cards.forEach((card) => {
+            const title = (card.querySelector("h3")?.textContent || "").toLowerCase();
+            const tag = (card.querySelector(".tag")?.textContent || "").trim();
 
-    let cards = document.querySelectorAll(".card");
+            const matchesSearch = !query || title.includes(query);
+            const matchesCategory =
+                activeCategory === "all" ||
+                tag.toLowerCase() === activeCategory.toLowerCase();
 
-    cards.forEach(card => {
+            const show = matchesSearch && matchesCategory;
+            card.style.display = show ? "block" : "none";
+            if (show) visibleCount++;
+        });
 
-        let tag = card.querySelector(".tag").textContent;
-
-        if(category === "all" || tag === category){
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
+        if (emptyState) {
+            emptyState.style.display = cards.length > 0 && visibleCount === 0 ? "block" : "none";
         }
-    });
-}
+    }
 
+    searchInput.addEventListener("input", applyFilters);
+
+    filterButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            filterButtons.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            activeCategory = btn.dataset.category || "all";
+            applyFilters();
+        });
+    });
+
+    // Helper: Convert an <img> element into a JPEG Data URL for jsPDF (falls back gracefully if local file/CORS blocks canvas)
+    function imageToDataUrl(imgEl) {
+        try {
+            if (!imgEl || !imgEl.complete || !imgEl.naturalWidth) return null;
+            const canvas = document.createElement("canvas");
+            const size = 96;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(imgEl, 0, 0, size, size);
+            return canvas.toDataURL("image/jpeg", 0.82);
+        } catch {
+            return null;
+        }
+    }
+
+    // Export visible (or all) product cards as a branded SUGO KNOTS PDF
+    exportPdfBtn.addEventListener("click", () => {
+        if (!window.jspdf) {
+            alert("PDF generator is still loading. Please try again in a second.");
+            return;
+        }
+
+        const allCards = [...document.querySelectorAll("#catalogGrid .card")];
+        const visibleCards = allCards.filter((card) => card.style.display !== "none");
+        const targetCards = visibleCards.length ? visibleCards : allCards;
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+        // Header Banner (#7b4b94)
+        doc.setFillColor(123, 75, 148);
+        doc.rect(0, 0, 210, 32, "F");
+
+        doc.setTextColor(255, 255, 255);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("SUGO KNOTS — Product Catalog", 14, 15);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        const dateStr = new Date().toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+        const filterLabel = activeCategory === "all" ? "All Categories" : activeCategory;
+        doc.text(
+            `Generated: ${dateStr}  |  Filter: ${filterLabel}  |  Items: ${targetCards.length}`,
+            14,
+            24
+        );
+
+        const items = targetCards.map((card, idx) => {
+            const name = card.querySelector("h3")?.textContent.trim() || `Product ${idx + 1}`;
+            const tag = card.querySelector(".tag")?.textContent.trim() || "Crochet";
+            const rawPrice = card.querySelector("p")?.textContent.trim() || "—";
+            // Replace ₹ with Rs. so default PDF Helvetica renders cleanly
+            const cleanPrice = rawPrice.replace(/₹/g, "Rs. ");
+            const thumb = imageToDataUrl(card.querySelector("img"));
+            return { index: idx + 1, name, tag, price: cleanPrice, thumb };
+        });
+
+        const tableBody = items.length
+            ? items.map((item) => [item.index, "", item.name, item.tag, item.price])
+            : [["—", "", "No product cards found in catalog grid", "—", "—"]];
+
+        doc.autoTable({
+            startY: 38,
+            head: [["#", "Preview", "Product Name", "Category", "Price"]],
+            body: tableBody,
+            theme: "grid",
+            headStyles: {
+                fillColor: [123, 75, 148],
+                textColor: [255, 255, 255],
+                fontStyle: "bold"
+            },
+            alternateRowStyles: {
+                fillColor: [250, 247, 252]
+            },
+            styles: {
+                font: "helvetica",
+                fontSize: 10,
+                valign: "middle",
+                minCellHeight: items.length ? 16 : 10,
+                textColor: [50, 40, 60]
+            },
+            columnStyles: {
+                0: { cellWidth: 12, halign: "center" },
+                1: { cellWidth: 18, halign: "center" },
+                2: { cellWidth: "auto", fontStyle: "bold" },
+                3: { cellWidth: 36 },
+                4: { cellWidth: 32, halign: "right" }
+            },
+            didDrawCell: (data) => {
+                if (data.section === "body" && data.column.index === 1) {
+                    const item = items[data.row.index];
+                    if (item && item.thumb) {
+                        const imgSize = 12;
+                        const x = data.cell.x + (data.cell.width - imgSize) / 2;
+                        const y = data.cell.y + (data.cell.height - imgSize) / 2;
+                        doc.addImage(item.thumb, "JPEG", x, y, imgSize, imgSize);
+                    }
+                }
+            }
+        });
+
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8.5);
+            doc.setTextColor(120, 110, 130);
+            doc.text(
+                `SUGO KNOTS | Handcrafted Crochet Plushies, Bouquets & Gifts  •  Page ${i} of ${pageCount}`,
+                14,
+                288
+            );
+        }
+
+        doc.save("sugo-knots-catalog.pdf");
+    });
+
+    // Subtle Premium Reveal Animations
+    function initSugoAnimations() {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const selectors = [
+            ".catalog-header",
+            ".stats",
+            ".stat-box",
+            ".catalog-tools",
+            ".card",
+            "footer"
+        ].join(", ");
+
+        const supportsObserver = "IntersectionObserver" in window;
+        const observer = supportsObserver
+            ? new IntersectionObserver(
+                  (entries, obs) => {
+                      entries.forEach((entry) => {
+                          if (!entry.isIntersecting) return;
+                          entry.target.classList.add("sugo-visible");
+                          obs.unobserve(entry.target);
+                      });
+                  },
+                  { threshold: 0.05, rootMargin: "0px 0px -12px 0px" }
+              )
+            : null;
+
+        const parentCounters = new WeakMap();
+
+        const registerElements = (root = document) => {
+            const candidates = root.matches?.(selectors)
+                ? [root, ...root.querySelectorAll(selectors)]
+                : [...root.querySelectorAll(selectors)];
+
+            candidates.forEach((el) => {
+                if (el.dataset.sugoInitialized) return;
+                el.dataset.sugoInitialized = "true";
+
+                const parent = el.parentElement || document.body;
+                const siblingIndex = parentCounters.get(parent) || 0;
+                parentCounters.set(parent, siblingIndex + 1);
+
+                el.classList.add("sugo-reveal");
+                el.setAttribute("data-sugo-delay", String(Math.min(siblingIndex % 4, 3)));
+
+                if (!observer) {
+                    el.classList.add("sugo-visible");
+                    return;
+                }
+
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+                    requestAnimationFrame(() => el.classList.add("sugo-visible"));
+                } else {
+                    observer.observe(el);
+                }
+            });
+        };
+
+        registerElements();
+
+        if (observer && "MutationObserver" in window) {
+            new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) registerElements(node);
+                    });
+                });
+            }).observe(document.body, { childList: true, subtree: true });
+        }
+    }
+
+    initSugoAnimations();
+})();
 </script>
 
 </body>
