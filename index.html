@@ -8,7 +8,13 @@ body {
     position: relative;
     isolation: isolate;
 }
-
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #ffffff;
+    padding: 15px 0;
+}
 body::before {
     content: "";
     position: fixed;
