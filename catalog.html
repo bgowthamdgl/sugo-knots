@@ -358,6 +358,32 @@ mark.search-highlight {
     transform: translateY(-3px);
 }
 
+/* Toast Notification */
+.sugo-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(16px);
+    background: #2d1d3a;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 26px rgba(45, 29, 58, 0.28);
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    max-width: min(92vw, 520px);
+    text-align: center;
+}
+
+.sugo-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 /* Subtle Premium Reveal Animations */
 .sugo-reveal {
     opacity: 0;
@@ -495,6 +521,8 @@ footer {
     <p class="empty-state" id="emptyState">No crochet products match your search.</p>
 </div>
 
+<div id="sugoToast" class="sugo-toast" role="status" aria-live="polite"></div>
+
 <footer>
     <h3>SUGO KNOTS</h3>
     <p>Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts</p>
@@ -545,6 +573,7 @@ footer {
 
     let activeCategory = "all";
     let activeSuggestionIndex = -1;
+    let toastTimer = null;
 
     const gridEl = document.getElementById("catalogGrid");
     const searchInput = document.getElementById("searchInput");
@@ -554,6 +583,17 @@ footer {
     const emptyState = document.getElementById("emptyState");
     const productCountStat = document.getElementById("productCountStat");
     const exportPdfBtn = document.getElementById("exportPdfBtn");
+    const toastEl = document.getElementById("sugoToast");
+
+    function showToast(message) {
+        if (!toastEl) return;
+        toastEl.textContent = message;
+        toastEl.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+            toastEl.classList.remove("show");
+        }, 3600);
+    }
 
     function escapeHtml(str) {
         return String(str).replace(/[&<>"']/g, (ch) => ({
@@ -599,6 +639,115 @@ footer {
         return result;
     }
 
+    function getAbsoluteImageUrl(relOrUrl) {
+        try {
+            return new URL(relOrUrl, window.location.href).href;
+        } catch {
+            return relOrUrl;
+        }
+    }
+
+    function buildWhatsAppOrderText(item) {
+        const fullImageUrl = getAbsoluteImageUrl(item.image);
+        return [
+            `Hi SUGO KNOTS! I would like to place an order:`,
+            `• Product: ${item.name}`,
+            `• Category: ${item.category}`,
+            `• Price: ₹${Number(item.price).toLocaleString("en-IN")}`,
+            `• Product Image: ${fullImageUrl}`
+        ].join("\n");
+    }
+
+    function getWhatsAppUrl(orderText) {
+        return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText)}`;
+    }
+
+    async function tryCopyImageToClipboard(blob) {
+        if (!blob || !navigator.clipboard || typeof ClipboardItem === "undefined") {
+            return false;
+        }
+        try {
+            const pngBlob = blob.type === "image/png" ? blob : await convertBlobToPng(blob);
+            if (!pngBlob) return false;
+            await navigator.clipboard.write([new ClipboardItem({ "image/png": pngBlob })]);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    function convertBlobToPng(blob) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            const objectUrl = URL.createObjectURL(blob);
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = img.naturalWidth || 400;
+                canvas.height = img.naturalHeight || 400;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0);
+                canvas.toBlob((png) => {
+                    URL.revokeObjectURL(objectUrl);
+                    resolve(png);
+                }, "image/png");
+            };
+            img.onerror = () => {
+                URL.revokeObjectURL(objectUrl);
+                resolve(null);
+            };
+            img.src = objectUrl;
+        });
+    }
+
+    async function handleWhatsAppOrder(event, item, imgEl) {
+        event.preventDefault();
+        const orderText = buildWhatsAppOrderText(item);
+        const waUrl = getWhatsAppUrl(orderText);
+        const imageSrc = imgEl?.currentSrc || imgEl?.src || getAbsoluteImageUrl(item.image);
+
+        let imageBlob = null;
+        try {
+            const response = await fetch(imageSrc);
+            if (response.ok) {
+                imageBlob = await response.blob();
+            }
+        } catch {
+            imageBlob = null;
+        }
+
+        // Try native Web Share API with the image file when supported (common on mobile/HTTPS)
+        if (imageBlob && navigator.canShare && typeof File !== "undefined") {
+            const ext = (imageBlob.type.split("/")[1] || "jpeg").replace("jpeg", "jpg");
+            const safeSlug = item.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+            const file = new File([imageBlob], `${safeSlug || "product"}.${ext}`, {
+                type: imageBlob.type || "image/jpeg"
+            });
+
+            if (navigator.canShare({ files: [file], text: orderText })) {
+                try {
+                    await navigator.share({
+                        title: `SUGO KNOTS — ${item.name}`,
+                        text: orderText,
+                        files: [file]
+                    });
+                    return;
+                } catch (err) {
+                    if (err && err.name === "AbortError") return;
+                }
+            }
+        }
+
+        // Fallback: copy image to clipboard if available, then open WhatsApp chat with order details + image link
+        const copiedImg = await tryCopyImageToClipboard(imageBlob);
+        window.open(waUrl, "_blank", "noopener");
+
+        if (copiedImg) {
+            showToast("Image copied to clipboard! Paste (Ctrl+V) in WhatsApp along with your order message.");
+        } else {
+            showToast("Opening WhatsApp with product details & image link attached in the message.");
+        }
+    }
+
     function renderCatalogCards() {
         const existingCards = gridEl.querySelectorAll(".card");
         if (existingCards.length > 0) {
@@ -615,19 +764,20 @@ footer {
             article.dataset.productName = cleanName;
             article.dataset.category = item.category;
 
-            const waText = encodeURIComponent(
-                `Hi SUGO KNOTS! I'd like to order "${cleanName}" (Rs. ${item.price}).`
-            );
+            const orderText = buildWhatsAppOrderText({ ...item, name: cleanName });
+            const waUrl = getWhatsAppUrl(orderText);
 
             article.innerHTML = `
                 <img src="${escapeHtml(item.image)}" alt="${escapeHtml(cleanName)}" loading="lazy">
                 <span class="tag">${escapeHtml(item.category)}</span>
                 <h3>${escapeHtml(cleanName)}</h3>
                 <p>₹${Number(item.price).toLocaleString("en-IN")}</p>
-                <a class="order-btn" href="https://wa.me/${WHATSAPP_NUMBER}?text=${waText}" target="_blank" rel="noopener">Order on WhatsApp</a>
+                <a class="order-btn" href="${escapeHtml(waUrl)}" target="_blank" rel="noopener">Order on WhatsApp</a>
             `;
 
             const imgEl = article.querySelector("img");
+            const orderBtn = article.querySelector(".order-btn");
+
             imgEl.addEventListener("error", () => {
                 if (imgEl.dataset.fallbackApplied) return;
                 imgEl.dataset.fallbackApplied = "true";
@@ -635,6 +785,10 @@ footer {
                 imgEl.style.padding = "28px";
                 imgEl.style.opacity = "0.45";
                 imgEl.src = FALLBACK_IMAGE;
+            });
+
+            orderBtn.addEventListener("click", (e) => {
+                handleWhatsAppOrder(e, { ...item, name: cleanName }, imgEl);
             });
 
             fragment.appendChild(article);
