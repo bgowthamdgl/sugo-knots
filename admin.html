@@ -1,69 +1,476 @@
-<h1>💜 SUGO KNOTS Admin Panel</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SUGO KNOTS — Admin Panel</title>
+  <style>
+    :root {
+      --bg: #faf7ff;
+      --surface: #ffffff;
+      --surface-subtle: #f3ecff;
+      --text: #1f1630;
+      --muted: #62567a;
+      --accent: #6d28d9;
+      --accent-hover: #5b21b6;
+      --border: #e4d8f8;
+      --danger: #b91c1c;
+      --radius: 12px;
+      --shadow: 0 6px 24px rgba(45, 20, 88, 0.06);
+    }
 
-<p>
-Manage your crochet products, prices and images.
-</p>
+    * {
+      box-sizing: border-box;
+    }
 
-<hr>
+    body {
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
 
-<h2>➕ Add New Product</h2>
+    .admin-shell {
+      max-width: 820px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1.5rem;
+    }
 
-<label>Product Name</label>
-<br>
-<input type="text" placeholder="Enter Product Name">
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
 
-<br><br>
+    .admin-header h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.65rem;
+    }
 
-<label>Product Price (₹)</label>
-<br>
-<input type="number" placeholder="Enter Price">
+    .admin-header p {
+      margin: 0;
+      color: var(--muted);
+    }
 
-<br><br>
+    h2 {
+      margin: 0 0 1rem;
+      font-size: 1.2rem;
+    }
 
-<label>Category</label>
-<br>
-<select>
-    <option>Plushies</option>
-    <option>Bouquets</option>
-    <option>Keychains</option>
-    <option>Home Decor</option>
-    <option>Bridal Collection</option>
-</select>
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
 
-<br><br>
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
 
-<label>Product Image</label>
-<br>
-<input type="file">
+    .field--full {
+      grid-column: 1 / -1;
+    }
 
-<br><br>
+    label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
 
-<label>Description</label>
-<br>
-<textarea rows="4" placeholder="Write product description"></textarea>
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font: inherit;
+      color: var(--text);
+      background: var(--surface);
+    }
 
-<br><br>
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+      border-color: var(--accent);
+    }
 
-<button>➕ Add Product</button>
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
 
-<hr>
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      font: inherit;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: var(--surface-subtle);
+      color: var(--text);
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
 
-<h2>📦 Quick Actions</h2>
+    button:hover {
+      background: #e7dcfb;
+    }
 
-<button>📋 View Products</button>
+    button:active {
+      transform: translateY(1px);
+    }
 
-<button>✏️ Edit Products</button>
+    button[type="submit"] {
+      background: var(--accent);
+      color: #ffffff;
+    }
 
-<button>🗑️ Delete Product</button>
+    button[type="submit"]:hover {
+      background: var(--accent-hover);
+    }
 
-<button>📤 Export Catalog</button>
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
 
-<hr>
+    .summary-card {
+      background: var(--surface-subtle);
+      border-radius: 10px;
+      padding: 1rem;
+    }
 
-<h2>📊 Store Summary</h2>
+    .summary-label {
+      display: block;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
 
-<p>Total Products: 23</p>
+    .summary-value {
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
 
-<p>Categories:
-Plushies • Bouquets • Keychains • Decor • Bridal
-</p>
+    .status-banner {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      background: var(--surface-subtle);
+      font-size: 0.9rem;
+      min-height: 2.75rem;
+    }
+
+    .product-list {
+      margin-top: 1rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .product-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .product-item__actions {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .btn-danger {
+      color: var(--danger);
+      background: #fee2e2;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="panel admin-header">
+      <h1>💜 SUGO KNOTS Admin Panel</h1>
+      <p>Manage your crochet products, prices, and images.</p>
+    </header>
+
+    <section class="panel" aria-labelledby="add-product-heading">
+      <h2 id="add-product-heading">➕ Add New Product</h2>
+      <form id="product-form" class="form-grid" novalidate>
+        <div class="field">
+          <label for="product-name">Product Name</label>
+          <input
+            id="product-name"
+            name="name"
+            type="text"
+            placeholder="e.g., Mini Crochet Bear"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="product-price">Product Price (₹)</label>
+          <input
+            id="product-price"
+            name="price"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="e.g., 499"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="product-category">Category</label>
+          <select id="product-category" name="category">
+            <option value="Plushies">Plushies</option>
+            <option value="Bouquets">Bouquets</option>
+            <option value="Keychains">Keychains</option>
+            <option value="Home Decor">Home Decor</option>
+            <option value="Bridal Collection">Bridal Collection</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="product-image">Product Image</label>
+          <input
+            id="product-image"
+            name="image"
+            type="file"
+            accept="image/*"
+          />
+        </div>
+
+        <div class="field field--full">
+          <label for="product-description">Description</label>
+          <textarea
+            id="product-description"
+            name="description"
+            rows="4"
+            placeholder="Write product description"
+          ></textarea>
+        </div>
+
+        <div class="field field--full">
+          <div class="actions-row">
+            <button type="submit">➕ Add Product</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="quick-actions-heading">
+      <h2 id="quick-actions-heading">📦 Quick Actions</h2>
+      <div class="actions-row" role="group" aria-label="Catalog actions">
+        <button type="button" id="btn-view">📋 View Products</button>
+        <button type="button" id="btn-edit-hint">✏️ Edit Products</button>
+        <button type="button" id="btn-delete-last">🗑️ Delete Product</button>
+        <button type="button" id="btn-export">📤 Export Catalog</button>
+      </div>
+
+      <div id="status-banner" class="status-banner" role="status" aria-live="polite">
+        Ready. Add a new item or use a quick action above.
+      </div>
+
+      <div id="product-list" class="product-list" hidden></div>
+    </section>
+
+    <section class="panel" aria-labelledby="summary-heading">
+      <h2 id="summary-heading">📊 Store Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <span class="summary-label">Total Products</span>
+          <span class="summary-value" id="total-products">23</span>
+        </div>
+        <div class="summary-card">
+          <span class="summary-label">Categories</span>
+          <span class="summary-value">Plushies • Bouquets • Keychains • Home Decor • Bridal Collection</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      // Base count reflects existing catalog items before session additions
+      const BASE_CATALOG_COUNT = 23;
+      const sessionProducts = [];
+
+      const form = document.getElementById("product-form");
+      const totalEl = document.getElementById("total-products");
+      const statusEl = document.getElementById("status-banner");
+      const listEl = document.getElementById("product-list");
+
+      const updateSummary = () => {
+        totalEl.textContent = String(BASE_CATALOG_COUNT + sessionProducts.length);
+      };
+
+      const setStatus = (message) => {
+        statusEl.textContent = message;
+      };
+
+      const renderList = () => {
+        if (!sessionProducts.length) {
+          listEl.innerHTML = "<p>No session items added yet (23 items in base catalog).</p>";
+          return;
+        }
+
+        listEl.innerHTML = sessionProducts
+          .map(
+            (item, idx) => `
+              <div class="product-item">
+                <div>
+                  <strong>${escapeHtml(item.name)}</strong> — ₹${Number(item.price).toLocaleString("en-IN")}
+                  <span>(${escapeHtml(item.category)})</span>
+                </div>
+                <div class="product-item__actions">
+                  <button type="button" data-load-index="${idx}">✏️ Edit</button>
+                  <button type="button" class="btn-danger" data-delete-index="${idx}">Delete</button>
+                </div>
+              </div>
+            `
+          )
+          .join("");
+      };
+
+      const escapeHtml = (str) =>
+        String(str).replace(/[&<>"']/g, (ch) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[ch]));
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = form.name.value.trim();
+        const price = Number(form.price.value);
+        const category = form.category.value;
+        const description = form.description.value.trim();
+        const imageFile = form.image.files[0]?.name || null;
+
+        if (!name || Number.isNaN(price) || price <= 0) {
+          setStatus("Please enter a valid product name and a price greater than ₹0.");
+          return;
+        }
+
+        sessionProducts.push({
+          id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+          name,
+          price,
+          category,
+          description,
+          imageFile
+        });
+
+        updateSummary();
+        renderList();
+        listEl.hidden = false;
+        form.reset();
+        setStatus(`Added "${name}" (${category}) at ₹${price}.`);
+      });
+
+      document.getElementById("btn-view").addEventListener("click", () => {
+        listEl.hidden = !listEl.hidden;
+        if (!listEl.hidden) {
+          renderList();
+          setStatus(`Showing session items (${BASE_CATALOG_COUNT + sessionProducts.length} total catalog count).`);
+        } else {
+          setStatus("Hid product list.");
+        }
+      });
+
+      document.getElementById("btn-edit-hint").addEventListener("click", () => {
+        listEl.hidden = false;
+        renderList();
+        setStatus("Click 'Edit' next to any session item to load it into the form.");
+      });
+
+      document.getElementById("btn-delete-last").addEventListener("click", () => {
+        if (!sessionProducts.length) {
+          setStatus("No newly added session products to delete.");
+          return;
+        }
+        const removed = sessionProducts.pop();
+        updateSummary();
+        renderList();
+        setStatus(`Removed "${removed.name}".`);
+      });
+
+      document.getElementById("btn-export").addEventListener("click", () => {
+        const payload = JSON.stringify(
+          {
+            brand: "SUGO KNOTS",
+            baseCatalogCount: BASE_CATALOG_COUNT,
+            totalProducts: BASE_CATALOG_COUNT + sessionProducts.length,
+            sessionProducts
+          },
+          null,
+          2
+        );
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "sugo-knots-catalog.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        setStatus("Exported catalog JSON.");
+      });
+
+      listEl.addEventListener("click", (e) => {
+        const editIdx = e.target.getAttribute("data-load-index");
+        const delIdx = e.target.getAttribute("data-delete-index");
+
+        if (editIdx !== null) {
+          const item = sessionProducts[Number(editIdx)];
+          if (!item) return;
+          form.name.value = item.name;
+          form.price.value = item.price;
+          form.category.value = item.category;
+          form.description.value = item.description;
+          sessionProducts.splice(Number(editIdx), 1);
+          updateSummary();
+          renderList();
+          setStatus(`Loaded "${item.name}" into the form for editing.`);
+        }
+
+        if (delIdx !== null) {
+          const [removed] = sessionProducts.splice(Number(delIdx), 1);
+          updateSummary();
+          renderList();
+          if (removed) setStatus(`Deleted "${removed.name}".`);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
