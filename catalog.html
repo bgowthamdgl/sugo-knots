@@ -3,6 +3,26 @@
     <p>Handcrafted Crochet Plushies • Bouquets • Keychains • Gifts</p>
 </section>
 
+<section class="catalog-tools">
+
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Search products..."
+        onkeyup="filterProducts()">
+
+    <div class="filter-buttons">
+        <button onclick="filterCategory('all')">All</button>
+        <button onclick="filterCategory('Plushie')">Plushies</button>
+        <button onclick="filterCategory('Bouquet')">Bouquets</button>
+        <button onclick="filterCategory('Keychain')">Keychains</button>
+        <button onclick="filterCategory('Charm')">Charms</button>
+        <button onclick="filterCategory('Accessories')">Accessories</button>
+        <button onclick="filterCategory('Anime')">Anime</button>
+    </div>
+
+</section>
+
 <div class="grid">
 
 <div class="card">
@@ -68,24 +88,3 @@
 <!-- Continue the same format for the remaining 18 products -->
 
 </div>
-<section class="catalog-tools">
-
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 Search products..."
-        onkeyup="filterProducts()">
-
-    <div class="filter-buttons">
-        <button onclick="filterCategory('all')">All</button>
-        <button onclick="filterCategory('Plushie')">Plushies</button>
-        <button onclick="filterCategory('Bouquet')">Bouquets</button>
-        <button onclick="filterCategory('Keychain')">Keychains</button>
-        <button onclick="filterCategory('Charm')">Charms</button>
-        <button onclick="filterCategory('Accessories')">Accessories</button>
-        <button onclick="filterCategory('Anime')">Anime</button>
-    </div>
-
-</section>
-
-<div class="grid">
