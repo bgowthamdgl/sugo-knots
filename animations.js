@@ -1,77 +1,78 @@
-
 /* =====================================
-   SUGO KNOTS - ELEGANT ANIMATIONS
+   SUGO KNOTS - SUBTLE PREMIUM ANIMATIONS
    Shared JavaScript
 ===================================== */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
-    // Respect accessibility settings
     const reduceMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // Elements that should appear while scrolling
-    const revealSelectors = [
-        "main",
-        "section",
-        ".contact-container",
-        ".order-section",
-        ".product-card",
-        ".product",
-        ".gallery-item",
-        ".gallery",
-        "footer"
-    ];
+    if (reduceMotion) return;
 
-    const elements = document.querySelectorAll(
-        revealSelectors.join(",")
-    );
+    const elements = document.querySelectorAll(`
+        .catalog-header,
+        .stats,
+        .stat-box,
+        .catalog-tools,
+        .card,
+        .gallery figure,
+        .contact-container,
+        .order-section,
+        footer
+    `);
 
-    // Avoid adding reveal to nested elements twice
-    const filteredElements = Array.from(elements).filter(element => {
-        return !Array.from(element.parentElement?.closest(
-            ".sugo-reveal"
-        ) ? [element] : []).length;
-    });
-
-    if (reduceMotion || !("IntersectionObserver" in window)) {
-        return;
-    }
-
-    filteredElements.forEach((element, index) => {
+    elements.forEach((element, index) => {
 
         element.classList.add("sugo-reveal");
 
-        // Add a subtle stagger to nearby cards
-        const delay = (index % 5);
-        element.dataset.sugoDelay = delay;
-
+        element.setAttribute(
+            "data-sugo-delay",
+            Math.min(index % 4, 3)
+        );
     });
 
+    if (!("IntersectionObserver" in window)) {
+
+        document
+            .querySelectorAll(".sugo-reveal")
+            .forEach(el => el.classList.add("sugo-visible"));
+
+        return;
+    }
+
     const observer = new IntersectionObserver(
-        function (entries, observer) {
+
+        entries => {
 
             entries.forEach(entry => {
 
                 if (entry.isIntersecting) {
 
-                    entry.target.classList.add("sugo-visible");
+                    entry.target.classList.add(
+                        "sugo-visible"
+                    );
 
-                    observer.unobserve(entry.target);
+                    observer.unobserve(
+                        entry.target
+                    );
                 }
-
             });
 
         },
+
         {
-            threshold: 0.12,
-            rootMargin: "0px 0px -40px 0px"
+            threshold: 0.10,
+            rootMargin: "0px 0px -20px 0px"
         }
+
     );
 
-    document.querySelectorAll(".sugo-reveal").forEach(element => {
-        observer.observe(element);
-    });
+    document
+        .querySelectorAll(".sugo-reveal")
+        .forEach(element => {
+            observer.observe(element);
+        });
 
 });
