@@ -6,149 +6,118 @@
 <title>Contact - SUGO KNOTS</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #faf7fc;
-    position: relative;
-    min-height: 100vh;
+*{
+    box-sizing:border-box;
 }
 
-/* Logo watermark */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('./images/sugo-watermark.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 600px;
-    opacity: 0.25;
-    pointer-events: none;
-    z-index: 0;
+body{
+    margin:0;
+    font-family:'Segoe UI',sans-serif;
+    background:#faf7fc;
+    min-height:100vh;
+    position:relative;
 }
 
-.contact-container {
-    position: relative;
-    z-index: 1;
+/* Watermark */
+body::before{
+    content:"";
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-image:url('./images/sugo-watermark.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:600px;
+    opacity:0.12;
+    pointer-events:none;
+    z-index:0;
 }
 
-.contact-container {
-    max-width: 800px;
-    margin: 60px auto;
-    background: rgba(255,255,255,0.94);
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    text-align: center;
-    position: relative;
+.contact-container{
+    position:relative;
+    z-index:1;
+    max-width:800px;
+    margin:60px auto;
+    padding:40px;
+    background:rgba(255,255,255,0.95);
+    border-radius:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+    text-align:center;
 }
 
-h1 {
-    color: #7b4b94;
-    margin-bottom: 20px;
+h1{
+    color:#7b4b94;
+    margin-bottom:20px;
 }
 
-.contact-item {
-    margin: 20px 0;
-    font-size: 1.1rem;
+.contact-item{
+    margin:20px 0;
+    font-size:1.1rem;
 }
 
-.contact-item a {
-    color: #7b4b94;
-    text-decoration: none;
+.contact-item a{
+    color:#7b4b94;
+    text-decoration:none;
+    font-weight:600;
 }
 
-.btn {
-    display: inline-block;
-    margin: 12px 5px;
-    padding: 13px 25px;
-    background: #7b4b94;
-    color: white;
-    text-decoration: none;
-    border-radius: 30px;
-    transition: 0.3s;
+.contact-item a:hover{
+    text-decoration:underline;
 }
 
-.btn:hover {
-    background: #5e3678;
-    transform: translateY(-3px);
+.btn{
+    display:inline-block;
+    margin:12px 5px;
+    padding:13px 25px;
+    border-radius:30px;
+    text-decoration:none;
+    color:white;
+    transition:0.3s;
 }
 
-.whatsapp-btn {
-    background: #25D366;
+.btn:hover{
+    transform:translateY(-3px);
 }
 
-.whatsapp-btn:hover {
-    background: #1da851;
+.whatsapp-btn{
+    background:#25D366;
 }
 
-.order-section {
-    margin-top: 35px;
-    padding: 25px;
-    background: #faf3ff;
-    border-radius: 18px;
+.whatsapp-btn:hover{
+    background:#1da851;
 }
 
-.order-section h2 {
-    color: #7b4b94;
+.order-section{
+    margin-top:35px;
+    padding:25px;
+    background:#faf3ff;
+    border-radius:18px;
 }
 
-.order-section p {
-    color: #705c78;
-    line-height: 1.6;
+.order-section h2{
+    color:#7b4b94;
 }
 
-.testimonial-section {
-    max-width: 950px;
-    margin: 40px auto;
-    padding: 30px 20px;
-    text-align: center;
+.order-section p{
+    color:#705c78;
+    line-height:1.6;
 }
 
-.testimonial-section h2 {
-    color: #7b4b94;
-}
+@media(max-width:600px){
 
-.testimonial-card {
-    display: inline-block;
-    vertical-align: top;
-    width: 260px;
-    max-width: 100%;
-    background: white;
-    padding: 25px;
-    margin: 10px;
-    border-radius: 18px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
+    .contact-container{
+        margin:20px 15px;
+        padding:25px 15px;
+    }
 
-.stars {
-    color: #e5aa36;
-    font-size: 22px;
-}
-
-.testimonial-card h3 {
-    color: #7b4b94;
-}
-
-.testimonial-card p {
-    color: #66546d;
-    line-height: 1.6;
-}
-
-@media(max-width:600px) {
-    .contact-container {
-        margin: 25px 15px;
-        padding: 25px 15px;
+    body::before{
+        background-size:300px;
     }
 }
 </style>
+
 </head>
 
 <body>
@@ -173,34 +142,35 @@ sugo.knots2902@gmail.com
 
 <div class="contact-item">
 📸 <strong>Instagram:</strong>
-<a href="https://www.instagram.com/sugo.knots" target="_blank" rel="noopener">
+<a href="https://www.instagram.com/sugo.knots" target="_blank">
 @sugo.knots
 </a>
 </div>
 
 <a class="btn whatsapp-btn"
-href="https://wa.me/916381269866?text=Hello%20SUGO%20KNOTS!%20I%20would%20like%20to%20know%20about%20your%20crochet%20products."
-target="_blank" rel="noopener">
+href="https://wa.me/916381269866?text=Hello%20SUGO%20KNOTS!%20I%20would%20like%20to%20know%20about%20your%20crochet%20products"
+target="_blank">
 💬 Chat on WhatsApp
 </a>
 
 <div class="order-section">
+
 <h2>Place Your Crochet Order 🧶</h2>
 
 <p>
-Looking for a special handmade gift?
+Looking for a special handmade gift?<br>
 Tell us what you need and we'll help you!
 </p>
 
 <a class="btn whatsapp-btn"
-href="https://wa.me/916381269866?text=Hello%20SUGO%20KNOTS!%20I%20would%20like%20to%20place%20a%20custom%20crochet%20order."
-target="_blank" rel="noopener">
+href="https://wa.me/916381269866?text=Hello%20SUGO%20KNOTS!%20I%20would%20like%20to%20place%20a%20custom%20crochet%20order"
+target="_blank">
 🛍️ Place an Order
 </a>
+
 </div>
 
 </div>
 
 </body>
 </html>
-```
