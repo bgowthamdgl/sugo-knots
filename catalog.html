@@ -42,11 +42,11 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('./images/sugo-watermark.png');
+    background-image: url('./images/DP_Image.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 500px;
-    opacity: 0.08;
+    background-size: 420px;
+    opacity: 0.06;
     pointer-events: none;
     z-index: -1;
 }
@@ -513,89 +513,35 @@ footer {
 
 <script>
 (() => {
-    const IMAGES_FOLDER = "./images/";
-    const FALLBACK_IMAGE = "./images/sugo-watermark.png";
-    const WHATSAPP_NUMBER = "91XXXXXXXXXX";
-
-    // Paste your exact filenames from sugo-knots/images/ here (or { file, name, category, price })
-    const IMAGE_FILES = [
-        "teddy-bear-plushie.jpg",
-        "bunny-plushie.jpg",
-        "frog-plushie.jpg",
-        "octopus-plushie.jpg",
-        "strawberry-cow-plushie.jpg",
-        "sunflower-bouquet.jpg",
-        "rose-tulip-bouquet.jpg",
-        "lavender-bouquet.jpg",
-        "daisy-bouquet.jpg",
-        "heart-berry-keychain.jpg",
-        "mushroom-keychain.jpg",
-        "dino-keychain.jpg",
-        "sun-keychain.jpg",
-        "cherry-charm.jpg",
-        "star-bow-charm.jpg",
-        "cat-paw-charm.jpg",
-        "cloud-scrunchie.jpg",
-        "granny-tote-accessories.jpg",
-        "ribbon-headband-accessories.jpg",
-        "ear-warmer-accessories.jpg",
-        "chibi-kuro-anime.jpg",
-        "star-mage-anime.jpg",
-        "pocket-spirit-anime.jpg"
+    // All 23 products mapped directly to the filenames in sugo-knots/images/
+    const CATALOG_23 = [
+        { id: 1,  name: "Bell Collar Baby Elephant Lamp",                    category: "Accessories", price: 699, image: "./images/Bell%20Collar%20Baby%20Elephant%20Lamp.jpeg" },
+        { id: 2,  name: "Carrot Hat Kitty Plush",                             category: "Plushie",     price: 549, image: "./images/Carrot%20Hat%20Kitty%20Plush.jpeg" },
+        { id: 3,  name: "Crispy Fries Capybara Plushie",                      category: "Plushie",     price: 599, image: "./images/Crispy%20Fries%20Capybara%20Plushie.jpeg" },
+        { id: 4,  name: "Garden Bunny with Sunflower Bag",                    category: "Plushie",     price: 649, image: "./images/Garden%20Bunny%20with%20Sunflower%20Bag.jpeg" },
+        { id: 5,  name: "Lavender Sprout Penguin Plushie",                    category: "Plushie",     price: 499, image: "./images/Lavender%20Sprout%20Penguin%20Plushie.jpeg" },
+        { id: 6,  name: "Lavender Wrap Sunflower & Rose & Hearts Crochet Bouquet", category: "Bouquet", price: 899, image: "./images/Lavender%20Wrap%20Sunflower%20%26%20Rose%20%26%20Hearts%20Crochet%20Bouquet.jpeg" },
+        { id: 7,  name: "Long-Eared Bunny in Overalls",                       category: "Plushie",     price: 599, image: "./images/Long-Eared%20Bunny%20in%20Overalls.jpeg" },
+        { id: 8,  name: "Mini Party Duckling Plushie",                        category: "Plushie",     price: 399, image: "./images/Mini%20Party%20Duckling%20Plushie.jpeg" },
+        { id: 9,  name: "Mini Potted Lilac Tulip",                            category: "Bouquet",     price: 449, image: "./images/Mini%20Potted%20Lilac%20Tulip.jpeg" },
+        { id: 10, name: "Mini Red Rose Bouquet Keychain",                     category: "Keychain",    price: 299, image: "./images/Mini%20Red%20Rose%20Bouquet%20Keychain.jpeg" },
+        { id: 11, name: "Multi Keychains",                                    category: "Keychain",    price: 249, image: "./images/Multi%20Keychains.jpeg" },
+        { id: 12, name: "Naruto",                                             category: "Anime",       price: 549, image: "./images/Naruto.jpeg" },
+        { id: 13, name: "Pastel Pink Mini Rose Bouquet",                      category: "Bouquet",     price: 699, image: "./images/Pastel%20Pink%20Mini%20Rose%20Bouquet.jpeg" },
+        { id: 14, name: "Pink Rosebud Charm",                                 category: "Charm",       price: 229, image: "./images/Pink%20Rosebud%20Charm.jpeg" },
+        { id: 15, name: "Protective Evil Eye Crochet",                        category: "Charm",       price: 249, image: "./images/Protective%20Evil%20Eye%20Crochet.jpeg" },
+        { id: 16, name: "Rosy Bell Strawberry Pig Plushie",                   category: "Plushie",     price: 549, image: "./images/Rosy%20Bell%20Strawberry%20Pig%20Plushie.jpeg" },
+        { id: 17, name: "Royal Maroon Kundan Bridal Bangle Set",              category: "Accessories", price: 999, image: "./images/Royal%20Maroon%20Kundan%20Bridal%20Bangle%20Set.jpeg" },
+        { id: 18, name: "Rust Fox Bag Charm Keychain",                        category: "Keychain",    price: 299, image: "./images/Rust%20Fox%20Bag%20Charm%20Keychain.jpeg" },
+        { id: 19, name: "Sun & Earth Duo Keychain",                           category: "Keychain",    price: 349, image: "./images/Sun%20%26%20Earth%20Duo%20Keychain.jpeg" },
+        { id: 20, name: "Sunflower Quintet Charm",                            category: "Charm",       price: 329, image: "./images/Sunflower%20Quintet%20Charm.jpeg" },
+        { id: 21, name: "Sunny Bag Bunny Amigurumi",                          category: "Plushie",     price: 599, image: "./images/Sunny%20Bag%20Bunny%20Amigurumi.jpeg" },
+        { id: 22, name: "Sweet Bow Floppy-Ear Bunny",                         category: "Plushie",     price: 549, image: "./images/Sweet%20Bow%20Floppy-Ear%20Bunny.jpeg" },
+        { id: 23, name: "Violet Tulip Cluster Keyring",                       category: "Keychain",    price: 279, image: "./images/Violet%20Tulip%20Cluster%20Keyring.jpeg" }
     ];
 
-    function resolveImageSrc(fileOrPath) {
-        const clean = String(fileOrPath || "").trim();
-        if (!clean) return FALLBACK_IMAGE;
-        if (clean.startsWith("./images/") || clean.startsWith("images/") || clean.startsWith("http")) {
-            return clean.startsWith("images/") ? `./${clean}` : clean;
-        }
-        return `${IMAGES_FOLDER}${clean}`;
-    }
-
-    function inferCategoryFromName(text) {
-        const lower = text.toLowerCase();
-        if (lower.includes("bouquet") || lower.includes("flower") || lower.includes("rose") || lower.includes("tulip") || lower.includes("daisy") || lower.includes("lavender")) {
-            return "Bouquet";
-        }
-        if (lower.includes("keychain")) return "Keychain";
-        if (lower.includes("charm")) return "Charm";
-        if (lower.includes("anime") || lower.includes("chibi") || lower.includes("manga")) return "Anime";
-        if (lower.includes("scrunchie") || lower.includes("tote") || lower.includes("headband") || lower.includes("warmer") || lower.includes("accessories")) {
-            return "Accessories";
-        }
-        return "Plushie";
-    }
-
-    function formatTitleFromFile(fileOrPath) {
-        const base = String(fileOrPath || "")
-            .split("/")
-            .pop()
-            .replace(/\.[^.]+$/, "")
-            .replace(/[-_]+/g, " ")
-            .replace(/\s+/g, " ")
-            .trim();
-
-        if (!base) return "Crochet Item";
-        return base.replace(/\b\w/g, (ch) => ch.toUpperCase());
-    }
-
-    const CATALOG_23 = IMAGE_FILES.map((entry, index) => {
-        const isObj = typeof entry === "object" && entry !== null;
-        const rawFile = isObj ? entry.file : entry;
-        const image = resolveImageSrc(rawFile);
-        const name = (isObj && entry.name ? entry.name : formatTitleFromFile(rawFile)).trim();
-        const category = (isObj && entry.category ? entry.category : inferCategoryFromName(name)).trim();
-        const price = isObj && entry.price != null ? Number(entry.price) : 499;
-
-        return {
-            id: index + 1,
-            name,
-            category,
-            price,
-            image
-        };
-    });
+    const WHATSAPP_NUMBER = "91XXXXXXXXXX";
+    const FALLBACK_IMAGE = "./images/DP_Image.png";
 
     let activeCategory = "all";
     let activeSuggestionIndex = -1;
@@ -663,19 +609,20 @@ footer {
         const fragment = document.createDocumentFragment();
 
         CATALOG_23.forEach((item) => {
+            const cleanName = item.name.trim();
             const article = document.createElement("article");
             article.className = "card";
-            article.dataset.productName = item.name;
+            article.dataset.productName = cleanName;
             article.dataset.category = item.category;
 
             const waText = encodeURIComponent(
-                `Hi SUGO KNOTS! I'd like to order "${item.name}" (Rs. ${item.price}).`
+                `Hi SUGO KNOTS! I'd like to order "${cleanName}" (Rs. ${item.price}).`
             );
 
             article.innerHTML = `
-                <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}" loading="lazy">
+                <img src="${escapeHtml(item.image)}" alt="${escapeHtml(cleanName)}" loading="lazy">
                 <span class="tag">${escapeHtml(item.category)}</span>
-                <h3>${escapeHtml(item.name)}</h3>
+                <h3>${escapeHtml(cleanName)}</h3>
                 <p>₹${Number(item.price).toLocaleString("en-IN")}</p>
                 <a class="order-btn" href="https://wa.me/${WHATSAPP_NUMBER}?text=${waText}" target="_blank" rel="noopener">Order on WhatsApp</a>
             `;
@@ -701,7 +648,7 @@ footer {
         const cards = [...gridEl.querySelectorAll(".card")];
         if (!cards.length) {
             return CATALOG_23.map((p) => ({
-                name: p.name,
+                name: p.name.trim(),
                 category: p.category,
                 price: `₹${Number(p.price).toLocaleString("en-IN")}`
             }));
